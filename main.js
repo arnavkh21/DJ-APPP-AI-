@@ -25,7 +25,17 @@ poseNet.on('pose',gotPoses);
 }
 
 function draw(){
-    image(video,0,0,600,500)
+    image(video,0,0,600,500) 
+fill("#d1a000");
+stroke("#d1a000");
+
+circle(leftWristX,leftWristY,30)
+InNumberleftWristY = Number(leftWristY);
+remove_decimals = floor(InNumberleftWristY*2);
+volume = remove_decimals/1000;
+
+document.getElementById("vol").innerHTML = "Volume = "+ volume;
+song.setVolume(volume);        
 }
 
 function modelLoaded(){
@@ -34,12 +44,15 @@ function modelLoaded(){
 
 function gotPoses(results){
     if(results.length > 0 ){
-        console.log(results);
-        leftWristX = results[0].pose.leftWristX.x;
+        console.log(results); 
+        scoreLeftWrist = results[0].pose.keypoints[9].score;
+
+
+        leftWristX = results[0].pose.leftWrist.x;
         leftWristY = results[0].pose.leftWrist.y;
         console.log("leftWristX = "+ leftWristX + "leftWristY"+ leftWristY);
        
-        rightWristX = results[0].pose.rightWristX.x;
+        rightWristX = results[0].pose.rightWrist.x;
         rightWristY = results[0].pose.rightWrist.y;
         console.log("righttWristX = "+ rightWristX + "rightWristY = " + rightWristY);
     }
